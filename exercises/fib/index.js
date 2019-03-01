@@ -8,6 +8,67 @@
 // Example:
 //   fib(4) === 3
 
-function fib(n) {}
+
+function memoize(fn) {
+
+  const cache = {}
+  return function(...args) {
+
+    if (cache[args]) {
+      return cache[args]
+    }
+
+    const result = fn.apply(this, args)
+
+    cache[args] = result
+
+    return result
+  }
+}
+
+function fib(n) {
+
+if (n < 2) {
+  return n
+}
+
+ return fib(n - 1) + fib(n - 2)
+}
+
+fib = memoize(fib)
+/*
+// recursive, but it sucks. exponential big O. O(n^2)
+function fib(n) {
+
+if (n < 2) {
+  return n
+}
+
+ return fib(n - 1) + fib(n - 2)
+}
+*/
+
+/*
+// my solution
+function fib(n) {
+  if (n === 0) {
+    return 0
+  }
+
+  if (n === 1) {
+    return 1
+  }
+
+  let fibArray = [0, 1]
+  let count = 1
+
+  if (n > 1) {
+    for (let count = 1; count < n; count++) {
+      fibArray.push(fibArray[count] + fibArray[count - 1])
+    }
+    return fibArray[n]
+  }
+}
+*/
 
 module.exports = fib;
